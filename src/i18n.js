@@ -1,8 +1,8 @@
-import i18n from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import { initReactI18next } from 'react-i18next'
 
-export const defaultLng = 'en';
+export const defaultLng = 'en'
 // this is exported in order to avoid hard coding supported languages in more than 1 place
 const resources = {
   en: {
@@ -12,10 +12,10 @@ const resources = {
   },
   fr: {
     translations: {
-      'Minimize': 'Réduire',
-      'Maximize': 'Agrandir',
+      Minimize: 'Réduire',
+      Maximize: 'Agrandir',
       'Restore Down': 'Niveau inf.',
-      'Close': 'Fermer',
+      Close: 'Fermer',
       Home: 'Accueil',
       'Monday to Saturday': 'Lundi à Samedi',
       transExample: 'Ce modèle se trouve sur <0>github.com{{variable}}</0>',
@@ -45,6 +45,6 @@ i18n
     interpolation: {
       escapeValue: false
     }
-  });
+  })
 
-export default i18n;
+export default i18n

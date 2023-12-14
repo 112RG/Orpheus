@@ -1,5 +1,12 @@
 {
     "cSpell.words": [
         "mantine"
-    ]
+    ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.stylelint": "explicit",
+        "source.organizeImports": "never",
+        "source.formatDocument": "explicit"
+    },
+    "typescript.tsdk": "node_modules\\typescript\\lib",
 }
