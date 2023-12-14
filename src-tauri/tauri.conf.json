@@ -1,11 +1,11 @@
 {
   "package": {
-    "productName": "Product Name",
+    "productName": "Orpheus",
     "version": "../package.json"
   },
   "build": {
-    "beforeDevCommand": "yarn start",
-    "beforeBuildCommand": "yarn build",
+    "beforeDevCommand": "pnpm start",
+    "beforeBuildCommand": "pnpm build",
     "devPath": "http://localhost:1420",
     "distDir": "../build",
     "withGlobalTauri": false
@@ -18,7 +18,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "App.Name",
+      "identifier": "App.Orpheus",
       "publisher": "Unknown Publisher",
       "copyright": "Copyright Notice",
       "icon": [
@@ -154,7 +154,7 @@
     },
     "windows": [
       {
-        "title": "tauri.conf.json > tauri > windows > title",
+        "title": "Orpheus",
         "label": "main",
         "minWidth": 1000,
         "minHeight": 600,
