@@ -2,11 +2,22 @@
     "cSpell.words": [
         "mantine"
     ],
-    "editor.codeActionsOnSave": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.validate": ["typescript"],
+     "eslint.format.enable": true,
+     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit",
         "source.fixAll.stylelint": "explicit",
         "source.organizeImports": "never",
         "source.formatDocument": "explicit"
     },
+    "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+    "stylelint.validate": ["css", "scss", "typescript", "typescriptreact"],
+    "javascript.format.enable": false,
+    "typescript.format.enable": false,
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
     "typescript.tsdk": "node_modules\\typescript\\lib",
+    "reactSnippets.settings.importReactOnTop": false,
+    "editor.formatOnSave": true
 }

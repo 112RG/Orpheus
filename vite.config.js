@@ -17,13 +17,7 @@ export default defineConfig({
   // prevent vite from obscuring rust errors
   clearScreen: false,
   resolve: {
-    alias: [{ find: '@', replacement: '/src' }, { find: '@components', replacement: '/src/components' }, { find: '@utils', replacement: '/src/utils' }]
-
-    /*     "/@/*": ["*"],
-    "@utils/*": ["utils/*"],
-    "@components/*": ["components/*"],
-    "@stores/*": ["stores/*"], */
-
+    alias: [{ find: '@', replacement: '/src' }, { find: '@components', replacement: '/src/components' }, { find: '@utils', replacement: '/src/utils' }, { find: '@features', replacement: '/src/features' }]
   },
   // Tauri expects a fixed port, fail if that port is not available
   server: {

@@ -9,6 +9,7 @@
           "@utils/*": ["utils/*"],
           "@components/*": ["components/*"],
           "@stores/*": ["stores/*"],
+          "@features/*":["features/*"]
       },
       "declaration": true,
       "declarationMap": true,
