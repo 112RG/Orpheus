@@ -7,8 +7,8 @@ export const defaultLng = 'en'
 const resources = {
   en: {
     translations: {
-      transExample: 'This template is located on <0>github.com{{variable}}</0>'
-    }
+      transExample: 'This template is located on <0>github.com{{variable}}</0>',
+    },
   },
   fr: {
     translations: {
@@ -22,9 +22,9 @@ const resources = {
       'Update v{{ v }} available': 'Mise à jour v{{ v }} disponible',
       'Install update and relaunch': 'Installer la mise à jour et relancer',
       'Installing update v{{ v }}': 'Installation de la mise à jour v{{ v }}',
-      'Will relaunch afterwards': 'Relancera ensuite'
-    }
-  }
+      'Will relaunch afterwards': 'Relancera ensuite',
+    },
+  },
 }
 
 i18n
@@ -43,8 +43,8 @@ i18n
     keySeparator: false, // we use content as keys
 
     interpolation: {
-      escapeValue: false
-    }
+      escapeValue: false,
+    },
   })
 
 export default i18n

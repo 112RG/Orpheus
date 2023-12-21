@@ -7,13 +7,13 @@ import { AppProvider } from './providers/App'
 // for internationalization (translations)
 import './i18n'
 
-const container = document.getElementById('root')! as HTMLElement;
-const root = createRoot(container);
+const container = document.getElementById('root')! as HTMLElement
+const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
-    <AppProvider >
+    <AppProvider>
       <App />
     </AppProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

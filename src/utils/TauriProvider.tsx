@@ -23,11 +23,11 @@ const TauriContext = React.createContext({
   osType: undefined,
   fileSep: '/',
   isFullScreen: false,
-  usingCustomTitleBar: false
+  usingCustomTitleBar: false,
 })
 type TauriProvider = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export const useTauriContext = () => useContext(TauriContext)
 export const TauriProvider = ({ children }: TauriProvider) => {
@@ -73,7 +73,8 @@ export const TauriProvider = ({ children }: TauriProvider) => {
           appWindow.unminimize().then(() => appWindow.setFocus())
           const args = payload?.args
           const cwd = payload?.cwd
-          if (args?.length > 1) { }
+          if (args?.length > 1) {
+          }
         })
         setDownloadDir(await tauriPath.downloadDir())
         const _documents = await tauriPath.documentDir()
@@ -97,8 +98,21 @@ export const TauriProvider = ({ children }: TauriProvider) => {
     }, [])
   }
 
-  return <TauriContext.Provider value={{ loading, fileSep, downloads, documents, osType, appDocuments, isFullScreen, usingCustomTitleBar }}>
-    {usingCustomTitleBar && <TitleBar />}
-    {children}
-  </TauriContext.Provider>
+  return (
+    <TauriContext.Provider
+      value={{
+        loading,
+        fileSep,
+        downloads,
+        documents,
+        osType,
+        appDocuments,
+        isFullScreen,
+        usingCustomTitleBar,
+      }}
+    >
+      {usingCustomTitleBar && <TitleBar />}
+      {children}
+    </TauriContext.Provider>
+  )
 }

@@ -5,17 +5,16 @@ import * as fs from '@tauri-apps/api/fs'
 import * as shell from '@tauri-apps/api/shell'
 import { invoke } from '@tauri-apps/api/tauri'
 import { appWindow } from '@tauri-apps/api/window'
-import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { useTauriContext } from '../utils/TauriProvider'
 import { APP_NAME, notify, RUNNING_IN_TAURI, useMinWidth, useStorage } from '../utils/utils'
 
-function toggleFullscreen () {
-  appWindow.isFullscreen().then(x => appWindow.setFullscreen(!x))
+function toggleFullscreen() {
+  appWindow.isFullscreen().then((x) => appWindow.setFullscreen(!x))
 }
 
-export default function ExampleView () {
+export default function ExampleView() {
   const { t } = useTranslation()
   const { fileSep, loading, documents, downloads } = useTauriContext()
   // store-plugin will create necessary directories
@@ -26,15 +25,17 @@ export default function ExampleView () {
   useMinWidth(1000)
 
   // fs example
-  async function createFile () {
+  async function createFile() {
     // run only in desktop/tauri env
     if (RUNNING_IN_TAURI) {
       // https://tauri.app/v1/api/js/modules/fs
       const filePath = `${downloads}/example_file.txt`
-      await fs.writeTextFile('example_file.txt', 'oh this is from TAURI! COOLIO.\n', { dir: fs.BaseDirectory.Download })
+      await fs.writeTextFile('example_file.txt', 'oh this is from TAURI! COOLIO.\n', {
+        dir: fs.BaseDirectory.Download,
+      })
       // show in file explorer: https://github.com/tauri-apps/tauri/issues/4062
       await shell.open(downloads)
-      await invoke('process_file', { filepath: filePath }).then(msg => {
+      await invoke('process_file', { filepath: filePath }).then((msg) => {
         console.log(msg === 'Hello from Rust!')
         notify('Message from Rust', msg)
         notifications.show({ title: 'Message from Rust', message: msg })
@@ -42,21 +43,41 @@ export default function ExampleView () {
     }
   }
   // <> is an alias for <React.Fragment>
-  return !loadingData && <>
+  return (
+    !loadingData && (
+      <>
         <Text>{t('Modern Desktop App Examples')}</Text>
-        <Space h='lg' />
+        <Space h="lg" />
         <Button onClick={createFile}>Do something with fs</Button>
         <Space />
         <Button onClick={toggleFullscreen}>Toggle Fullscreen</Button>
         <Space />
-        <Button onClick={() => notifications.show({ title: 'Mantine Notification', message: 'test v6 breaking change' })}>Notification example</Button>
+        <Button
+          onClick={() =>
+            notifications.show({
+              title: 'Mantine Notification',
+              message: 'test v6 breaking change',
+            })
+          }
+        >
+          Notification example
+        </Button>
 
         <Title order={4}>{t('Interpolating components in translations')} </Title>
-        <Trans i18nKey='transExample'
-            values={{ variable: '/elibroftw/modern-desktop-template' }}
-            components={[<Anchor href="https://github.com/elibroftw/modern-desktop-app-template" />]}
-            // optional stuff:
-            default='FALLBACK if key does not exist. This template is located on <0>github.com{{variable}}</0>' t={t} />
-        <TextInput label={t('Persistent data')} value={data} onChange={e => setData(e.currentTarget.value)} />
-    </>
+        <Trans
+          i18nKey="transExample"
+          values={{ variable: '/elibroftw/modern-desktop-template' }}
+          components={[<Anchor href="https://github.com/elibroftw/modern-desktop-app-template" />]}
+          // optional stuff:
+          default="FALLBACK if key does not exist. This template is located on <0>github.com{{variable}}</0>"
+          t={t}
+        />
+        <TextInput
+          label={t('Persistent data')}
+          value={data}
+          onChange={(e) => setData(e.currentTarget.value)}
+        />
+      </>
+    )
+  )
 }

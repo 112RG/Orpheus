@@ -23,7 +23,11 @@ export const RUNNING_IN_TAURI = window.__TAURI__ !== undefined
 export const IS_DEVELOPMENT = import.meta.env.MODE === 'development'
 export const IS_PRODUCTION = !IS_DEVELOPMENT
 
-export function useCookie (key, defaultValue, { expires = 365000, sameSite = 'lax', path = '/' } = {}) {
+export function useCookie(
+  key,
+  defaultValue,
+  { expires = 365000, sameSite = 'lax', path = '/' } = {},
+) {
   // cookie expires in a millenia
   // sameSite != 'strict' because the cookie is not read for sensitive actions
   // synchronous
@@ -35,7 +39,7 @@ export function useCookie (key, defaultValue, { expires = 365000, sameSite = 'la
   return [state, setState]
 }
 
-export function trueTypeOf (obj) {
+export function trueTypeOf(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase()
   /*
         []              -> array
@@ -52,10 +56,10 @@ export function trueTypeOf (obj) {
     */
 }
 
-export function useMinWidth (minWidth) {
+export function useMinWidth(minWidth) {
   if (RUNNING_IN_TAURI) {
     useEffect(() => {
-      async function resizeWindow () {
+      async function resizeWindow() {
         // to set a size consistently across devices,
         //  one must use LogicalSize (Physical cannot be relied upon)
         const physicalSize = await getCurrent().innerSize()
@@ -75,15 +79,15 @@ export function useMinWidth (minWidth) {
   }
 }
 
-function * flattenFiles (entries) {
+function* flattenFiles(entries) {
   for (const entry of entries) {
-    entry.children === null ? yield entry.path : yield * fileSaveFiles(entry.children)
+    entry.children === null ? yield entry.path : yield* fileSaveFiles(entry.children)
   }
 }
 
 // const getExtensionTests = ['/.test/.ext', './asdf.mz', '/asdf/qwer.maz', 'asdf.mm', 'sdf/qwer.ww', './.asdf.mz', '/asdf/.qwer.maz', '.asdf.mm', 'sdf/.qwer.ww', './asdf', '/adsf/qwer', 'asdf', 'sdf/qewr', './.asdf', '/adsf/.qwer', '.asdf', 'sdf/.qewr']
 
-function getExtension (path) {
+function getExtension(path) {
   // Modified from https://stackoverflow.com/a/12900504/7732434
   // get filename from full path that uses '\\' or '/' for seperators
   const basename = path.split(/[\\/]/).pop()
@@ -94,7 +98,7 @@ function getExtension (path) {
   return basename.slice(pos)
 }
 
-export async function getUserAppFiles () {
+export async function getUserAppFiles() {
   // returns an array of files from $DOCUMENT/$APP_NAME/* with extension that is in EXTS
   //  implying that the app (tauri-plugin-store) can parse the files
   // returns [] if $DOCUMENT/$APP_NAME is a file
@@ -116,7 +120,7 @@ export async function getUserAppFiles () {
 
 const stores = {}
 
-function getTauriStore (filename) {
+function getTauriStore(filename) {
   if (!(filename in stores)) stores[filename] = new Store(filename)
   return stores[filename]
 }
@@ -124,7 +128,7 @@ function getTauriStore (filename) {
 // uselocalForage on web and tauri-plugin-store in Tauri
 export const useStorage = RUNNING_IN_TAURI ? useTauriStore : useLocalForage
 
-export function useTauriStore (key, defaultValue, storeName = 'data.dat') {
+export function useTauriStore(key, defaultValue, storeName = 'data.dat') {
   // storeName is a path that is relative to AppData if not absolute
   const [state, setState] = useState(defaultValue)
   const [loading, setLoading] = useState(true)
@@ -134,11 +138,13 @@ export function useTauriStore (key, defaultValue, storeName = 'data.dat') {
   // useLayoutEffect will be called before DOM paintings and before useEffect
   useLayoutEffect(() => {
     let allow = true
-    store.get(key)
-      .then(value => {
+    store
+      .get(key)
+      .then((value) => {
         if (value === null) throw ''
         if (allow) setState(value)
-      }).catch(() => {
+      })
+      .catch(() => {
         store.set(key, defaultValue).then(() => {
           timeoutRef.current = setTimeout(() => store.save(), SAVE_DELAY)
         })
@@ -146,7 +152,7 @@ export function useTauriStore (key, defaultValue, storeName = 'data.dat') {
       .then(() => {
         if (allow) setLoading(false)
       })
-    return () => allow = false
+    return () => (allow = false)
   }, [])
   // useLayoutEffect does not like Promise return values.
   useEffect(() => {
@@ -167,7 +173,7 @@ export function useTauriStore (key, defaultValue, storeName = 'data.dat') {
 }
 
 // https://reactjs.org/docs/hooks-custom.html
-export function useLocalForage (key, defaultValue) {
+export function useLocalForage(key, defaultValue) {
   // only supports primitives, arrays, and {} objects
   const [state, setState] = useState(defaultValue)
   const [loading, setLoading] = useState(true)
@@ -175,15 +181,17 @@ export function useLocalForage (key, defaultValue) {
   // useLayoutEffect will be called before DOM paintings and before useEffect
   useLayoutEffect(() => {
     let allow = true
-    localforage.getItem(key)
-      .then(value => {
+    localforage
+      .getItem(key)
+      .then((value) => {
         if (value === null) throw ''
         if (allow) setState(value)
-      }).catch(() => localforage.setItem(key, defaultValue))
+      })
+      .catch(() => localforage.setItem(key, defaultValue))
       .then(() => {
         if (allow) setLoading(false)
       })
-    return () => allow = false
+    return () => (allow = false)
   }, [])
   // useLayoutEffect does not like Promise return values.
   useEffect(() => {
@@ -195,15 +203,15 @@ export function useLocalForage (key, defaultValue) {
 }
 
 // show browser / native notification
-export function notify (title, body) {
+export function notify(title, body) {
   new Notification(title, { body: body || '' })
 }
 
-export function sleep (ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
+export function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-export function downloadFile (filename, content, contentType = 'text/plain') {
+export function downloadFile(filename, content, contentType = 'text/plain') {
   const element = document.createElement('a')
   const file = new Blob([content], { type: contentType })
   element.href = URL.createObjectURL(file)
@@ -214,7 +222,7 @@ export function downloadFile (filename, content, contentType = 'text/plain') {
 
 Math.clamp = (num, min, max) => Math.min(Math.max(num, min), max)
 
-export function arraysEqual (a, b) {
+export function arraysEqual(a, b) {
   if (a === b) return true
   if (a == null || b == null) return false
   if (a.length !== b.length) return false
