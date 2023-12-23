@@ -16,6 +16,7 @@ import {
 } from '@mantine/core'
 import { useDisclosure, useHotkeys } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
+import { RootRoute } from '@tanstack/react-router'
 import * as tauriEvent from '@tauri-apps/api/event'
 import { relaunch } from '@tauri-apps/api/process'
 import { checkUpdate, installUpdate } from '@tauri-apps/api/updater'
@@ -24,7 +25,7 @@ import { useTranslation } from 'react-i18next'
 import { BsMoonStarsFill } from 'react-icons/bs'
 import { ImCross } from 'react-icons/im'
 import { IoSunnySharp } from 'react-icons/io5'
-import { NavLink, Navigate, Route, Routes } from 'react-router-dom'
+import { NavLink, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import SimpleBar from 'simplebar-react'
 
 import LanguageHeaders from '@components/LanguageHeaders'
@@ -40,6 +41,7 @@ import { ScrollToTop } from '@components/ScrollToTop'
 import { useTauriContext } from '@utils/TauriProvider'
 
 import classes from './App.module.css'
+import { AppRouter } from './features/router/app-router'
 import { FOOTER, HEADER_TITLE, RUNNING_IN_TAURI, useCookie, useLocalForage } from './utils/utils'
 import ExampleView from './views/ExampleView'
 
@@ -166,10 +168,10 @@ export default function App() {
         const constrainedWidth = constrainSidebarWidth(width)
 
         /*         if (width < MINIMUM_SIDEBAR_WIDTH - 100) {
-          setSideBar({ collapsed: true })
-        } else {
-          setSideBar({ collapsed: false, leftWidth: constrainedWidth })
-        } */
+                                          setSideBar({ collapsed: true })
+                                        } else {
+                                          setSideBar({ collapsed: false, leftWidth: constrainedWidth })
+                                        } */
         setSidebarWidth(constrainedWidth)
       }
     },
@@ -221,20 +223,8 @@ export default function App() {
         >
           <AppShellMain>
             {usingCustomTitleBar && <Space h="xl" />}
-            <Routes>
-              <Route
-                path="/"
-                element={<Navigate to={views[0].path} />}
-              />
-              {views.map((view, index) => (
-                <Route
-                  key={index}
-                  exact={view.exact}
-                  path={view.path}
-                  element={<view.component />}
-                />
-              ))}
-            </Routes>
+            <Outlet />
+
             {/* prevent the footer from covering bottom text of a route view */}
             {showFooter && <Space h={80} />}
             <ScrollToTop
@@ -317,3 +307,7 @@ export default function App() {
     </>
   )
 }
+
+export const rootRoute = new RootRoute({
+  component: App,
+})
